@@ -249,137 +249,138 @@ ul {
 /* -------------------------------------- */
 /* 利用c3的动画属性来控制位移 */
 /* 准备动画脚本 */
-/*@keyframes moveUp {*/
-/*    0% {*/
-/*    }*/
+@keyframes moveUp {
+    0% {
+    }
 
-/*    100% {*/
-/*        transform: translateY(-50%);*/
-/*    }*/
-/*}*/
+    100% {
+        transform: translateY(-50%);
+    }
+}
 
-/*.monitor .marquee {*/
-/*    animation: moveUp 10s linear infinite;*/
-/*}*/
+/*将动画脚本设置到marquee盒子*/
+.monitor .marquee {
+    animation: moveUp 10s linear infinite;
+}
 
-/* 当鼠标悬停的时候,动画暂停 */
-/*.monitor .marquee:hover {*/
-/*    animation-play-state: paused;*/
-/*}*/
+/*利用css的hover 当鼠标悬停的时候, 动画暂停*/
+.monitor .marquee:hover {
+    animation-play-state: paused;
+}
 
 /* -------------------------------------- */
 /* 点位区域css代码 */
-/*.point {*/
-/*    height: 4.25rem;*/
-/*}*/
+.point {
+    height: 4.25rem;
+}
 
-/*.point .chart {*/
-/*    display: flex;*/
-/*    margin-top: 0.3rem;*/
-/*    justify-content: space-between;*/
-/*}*/
+.point .chart {
+    display: flex;
+    margin-top: 0.3rem;
+    justify-content: space-between;
+}
 
-/*.point .pie {*/
-/*    width: 3.9rem;*/
-/*    height: 3rem;*/
-/*    margin-left: -0.125rem;*/
-/*}*/
+.point .pie {
+    width: 3.9rem;
+    height: 3rem;
+    margin-left: -0.125rem;
+}
 
-/*.point .data {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    justify-content: space-between;*/
-/*    width: 2.1rem;*/
-/*    padding: .45rem .375rem;*/
-/*    box-sizing: border-box;*/
-/*    background-image: url(../images/rect.png);*/
-/*    background-size: cover;*/
-/*}*/
+.point .data {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 2.1rem;
+    padding: .45rem .375rem;
+    box-sizing: border-box;
+    background-image: url(../images/rect.png);
+    background-size: cover;
+}
 
-/*.point h4 {*/
-/*    margin-bottom: 0.15rem;*/
-/*    font-size: .35rem;*/
-/*    color: #fff;*/
-/*}*/
+.point h4 {
+    margin-bottom: 0.15rem;
+    font-size: .35rem;
+    color: #fff;
+}
 
-/*.point span {*/
-/*    display: block;*/
-/*    color: #4c9bfd;*/
-/*    font-size: .2rem;*/
-/*}*/
+.point span {
+    display: block;
+    color: #4c9bfd;
+    font-size: .2rem;
+}
 
 /* -------------------------------------- */
 /* 地图模块css代码 */
-/*.map {*/
-/*    height: 7.225rem;*/
-/*    margin-bottom: 0.25rem;*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*}*/
+.map {
+    height: 7.225rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    flex-direction: column;
+}
 
-/*.map h3 {*/
-/*    line-height: 1;*/
-/*    padding: 0.2rem 0;*/
-/*    margin: 0;*/
-/*    font-size: 0.25rem;*/
-/*    color: #fff;*/
-/*    font-weight: 400;*/
-/*}*/
+.map h3 {
+    line-height: 1;
+    padding: 0.2rem 0;
+    margin: 0;
+    font-size: 0.25rem;
+    color: #fff;
+    font-weight: 400;
+}
 
-/*.map .icon-cube {*/
-/*    color: #68d8fe;*/
-/*}*/
+.map .icon-cube {
+    color: #68d8fe;
+}
 
-/*.map .chart {*/
-/*    flex: 1;*/
-/*    background-color: rgba(255, 255, 255, 0.05);*/
-/*}*/
+.map .chart {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.05);
+}
 
-/*.map .geo {*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*}*/
+.map .geo {
+    width: 100%;
+    height: 100%;
+}
 
 /* -------------------------------------- */
 /* 用户统计模块css代码 */
-/*.users {*/
-/*    height: 4.25rem;*/
-/*    display: flex;*/
-/*}*/
+.users {
+    height: 4.25rem;
+    display: flex;
+}
 
-/*.users .chart {*/
-/*    display: flex;*/
-/*    margin-top: .3rem;*/
-/*}*/
+.users .chart {
+    display: flex;
+    margin-top: .3rem;
+}
 
-/*.users .bar {*/
-/*    width: 7.35rem;*/
-/*    height: 3rem;*/
-/*    !* background-color: #fff; *!*/
-/*}*/
+.users .bar {
+    width: 7.35rem;
+    height: 3rem;
+    /* background-color: #fff; */
+}
 
-/*.users .data {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    justify-content: space-between;*/
-/*    width: 2.1rem;*/
-/*    padding: .45rem .375rem;*/
-/*    box-sizing: border-box;*/
-/*    background-image: url(../images/rect.png);*/
-/*    background-size: cover;*/
-/*}*/
+.users .data {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 2.1rem;
+    padding: .45rem .375rem;
+    box-sizing: border-box;
+    background-image: url(../images/rect.png);
+    background-size: cover;
+}
 
-/*.users h4 {*/
-/*    margin-bottom: .15rem;*/
-/*    font-size: .35rem;*/
-/*    color: #fff;*/
-/*}*/
+.users h4 {
+    margin-bottom: .15rem;
+    font-size: .35rem;
+    color: #fff;
+}
 
-/*.users span {*/
-/*    display: block;*/
-/*    color: #4c9bfd;*/
-/*    font-size: 0.2rem;*/
-/*}*/
+.users span {
+    display: block;
+    color: #4c9bfd;
+    font-size: 0.2rem;
+}
 
 /* -------------------------------------- */
 /* 订单区域css代码 */
