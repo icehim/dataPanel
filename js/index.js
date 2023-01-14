@@ -192,3 +192,484 @@
         myCharts.resize();
     })
 })();
+
+// 订单区域的js代码
+(function () {
+    //0.假数据
+    //数组的数据通过小标获取
+    //对象的数据通过key获取
+    let data = {
+        day365: {orders: '20,301,987', amount: '99834'},
+        day90: {orders: '301,987', amount: '9834'},
+        day30: {orders: '1,987', amount: '3834'},
+        day1: {orders: '987', amount: '834'}
+    }
+
+    //1.给筛选a标签设置点击事件
+    $('.filter a').on('click', function () {
+        //2.修改当前按钮的高亮效果
+        $(this).addClass('active').siblings().removeClass('active');
+        //3.获取当前a标签的自定义属性flag值
+        let flag = $(this).attr('flag');
+        //4.获取对应的数据
+        // 获取对象成员的方法:点语法 / 中括号key
+        let flagData = data[flag]
+        //5.将对应的数据渲染到指定结构
+        $('.order .item h4').eq(0).text(flagData.orders)
+        $('.order .item h4').eq(1).text(flagData.amount)
+
+        //9.当点击a标签的时候，应该同步定时器中的index
+        index = $(this).index()
+    })
+    //6.设置定时器，让定时器轮流点击a标签
+    let index = 0
+    let timeId = setInterval(function () {
+        index++
+        if (index > 3) index = 0
+        //7.轮流点击不同下标的a标签
+        $('.filter a').eq(index).click()
+    }, 1500)
+    //8.设置hover事件
+    $('.order').hover(
+        function () {
+            clearInterval(timeId)
+        },
+        function () {
+            let timeId = setInterval(function () {
+                index++
+                if (index > 3) index = 0
+                //7.轮流点击不同下标的a标签
+                $('.filter a').eq(index).click()
+            }, 1500)
+        }
+    )
+
+})();
+
+//销售区域的js代码
+(function () {
+    //0.准备假数据
+    let data = {
+        year: [
+            [24, 40, 101, 134, 90, 230, 210, 230, 120, 230, 210, 120],
+            [40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79]
+        ],
+        quarter: [
+            [23, 75, 12, 97, 21, 67, 98, 21, 43, 64, 76, 38],
+            [43, 31, 65, 23, 78, 21, 82, 64, 43, 60, 19, 34]
+        ],
+        month: [
+            [34, 87, 32, 76, 98, 12, 32, 87, 39, 36, 29, 36],
+            [56, 43, 98, 21, 56, 87, 43, 12, 43, 54, 12, 98]
+        ],
+        week: [
+            [43, 73, 62, 54, 91, 54, 84, 43, 86, 43, 54, 53],
+            [32, 54, 34, 87, 32, 45, 62, 68, 93, 54, 54, 24]
+        ]
+    }
+
+    // 1. 实例化对象
+    let myCharts = echarts.init(document.querySelector(".line"));
+
+    // 2. 指定配置和数据
+    let option = {
+        tooltip: {
+            trigger: "axis"
+        },
+        // 图例组件
+        legend: {
+            textStyle: {
+                color: '#4c9bfd' // 图例文字颜色
+            },
+            right: '10%' // 距离右边10%
+        },
+        // 设置网格样式
+        grid: {
+            top: '20%',
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            show: true,// 显示边框
+            borderColor: '#012f4a',// 边框颜色
+            containLabel: true // 包含刻度文字在内
+        },
+
+        xAxis: {
+            type: 'category',
+            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+            axisTick: {
+                show: false // 去除刻度线
+            },
+            axisLabel: {
+                color: '#4c9bfd' // 文本颜色
+            },
+            axisLine: {
+                show: false // 去除轴线
+            },
+            boundaryGap: false  // 去除轴内间距
+        },
+        yAxis: {
+            type: 'value',
+            axisTick: {
+                show: false  // 去除刻度
+            },
+            axisLabel: {
+                color: '#4c9bfd' // 文字颜色
+            },
+            splitLine: {
+                lineStyle: {
+                    color: '#012f4a' // 分割线颜色
+                }
+            }
+        },
+        color: ['#00f2f1', '#ed3f35'],
+        series: [{
+            name: '预期销售额',
+            data: [24, 40, 101, 134, 90, 230, 210, 230, 120, 230, 210, 120],
+            type: 'line',
+            // 折线修饰为圆滑
+            smooth: true,
+        }, {
+            name: '实际销售额',
+            data: [40, 64, 191, 324, 290, 330, 310, 213, 180, 200, 180, 79],
+            type: 'line',
+            smooth: true,
+        }]
+    };
+
+    // 3. 把配置和数据给实例对象
+    myCharts.setOption(option);
+
+    //4.筛选a标签设置点击事件
+    $('.caption a').on('click', function () {
+        $(this).addClass('active').siblings('a').removeClass('active')
+        //注意:在点击事件的内部，a标签的起始下标是1
+        index = $(this).index() - 1
+        //8.获得当前a标签的自定义属性
+        let flag = $(this).attr('flag');
+        let flagData = data[flag]
+        option.series[0].data = flagData[0]
+
+        option.series[1].data = flagData[1]
+        myCharts.setOption(option)
+
+    })
+    //5.设置定时器，轮流点击a标签
+    let index = 0;
+    let timeId = setInterval(function () {
+        index++
+        if (index > 3) index = 0
+        //6.让对应a标签被点击
+        $('.caption a').eq(index).click()
+    }, 2000)
+    //7.设置盒子的hover事件
+    $('.sales').hover(
+        function () {
+            clearInterval(timeId)
+        },
+        function () {
+            timeId = setInterval(function () {
+                index++
+                if (index > 3) index = 0
+                //6.让对应a标签被点击
+                $('.caption a').eq(index).click()
+            }, 2000)
+        }
+    )
+})();
+
+//渠道分布的js代码
+(function () {
+    // 1. 实例化对象
+    let myCharts = echarts.init(document.querySelector(".radar"));
+    // 2.指定配置
+
+    let option = {
+        tooltip: {
+            show: true,
+            // 控制提示框组件的显示位置
+            position: ["60%", "10%"]
+        },
+        radar: {
+            indicator: [
+                {name: "机场", max: 100},
+                {name: "商场", max: 100},
+                {name: "火车站", max: 100},
+                {name: "汽车站", max: 100},
+                {name: "地铁", max: 100}
+            ],
+            // 修改雷达图的大小
+            radius: "65%",
+            shape: "circle",
+            // 分割的圆圈个数
+            splitNumber: 4,
+            name: {
+                // 修饰雷达图文字的颜色
+                textStyle: {
+                    color: "#4c9bfd"
+                }
+            },
+            // 分割的圆圈线条的样式
+            splitLine: {
+                lineStyle: {
+                    color: "rgba(255,255,255, 0.5)"
+                }
+            },
+            splitArea: {
+                show: false
+            },
+            // 坐标轴的线修改为白色半透明
+            axisLine: {
+                lineStyle: {
+                    color: "rgba(255, 255, 255, 0.5)"
+                }
+            }
+        },
+        series: [
+            {
+                name: "北京",
+                type: "radar",
+                // 填充区域的线条颜色
+                lineStyle: {
+                    normal: {
+                        color: "#fff",
+                        width: 1,
+                        opacity: 0.5
+                    }
+                },
+                data: [[90, 19, 56, 11, 34]],
+                // 设置图形标记 （拐点）
+                symbol: "circle",
+                // 这个是设置小圆点大小
+                symbolSize: 5,
+                // 设置小圆点颜色
+                itemStyle: {
+                    color: "#fff"
+                },
+                // 让小圆点显示数据
+                label: {
+                    show: true,
+                    fontSize: 10
+                },
+                // 修饰我们区域填充的背景颜色
+                areaStyle: {
+                    color: "rgba(238, 197, 102, 0.6)"
+                }
+            }
+        ]
+    };
+    // 3.把配置和数据给对象
+    myCharts.setOption(option);
+    // 当我们浏览器缩放的时候，图表也等比例缩放
+    window.addEventListener("resize", function () {
+        // 让我们的图表调用 resize这个方法
+        myCharts.resize();
+    });
+})();
+
+//进度区域的js代码
+(function () {
+    // 1. 实例化图表对象
+    let myCharts = echarts.init(document.querySelector('.gauge'));
+
+    // 2. 准备配置项属性
+    let option = {
+        series: [{
+            type: 'pie',
+            radius: ['130%', '150%'],
+            // 移动下位置  套住50%文字
+            center: ['48%', '75%'],
+            // 鼠标经过不变大
+            hoverOffset: 0,
+            labelLine: {
+                show: false
+            },
+            // 起始角度，支持范围[0, 360]
+            startAngle: 180,
+            data: [
+                {
+                    value: 150,
+                    itemStyle: {
+                        // 颜色渐变
+                        color: new echarts.graphic.LinearGradient(
+                            0,
+                            0,
+                            0,
+                            1,
+                            [{
+                                offset: 0,
+                                color: "#00c9e0"
+                            }, // 0 起始颜色
+                                {
+                                    offset: 1,
+                                    color: "#005fc1"
+                                } // 1 结束颜色
+                            ]
+                        )
+                    }
+                },
+                {
+                    value: 50,
+                    itemStyle: {
+                        color: '#12274d'
+                    }
+                },
+                {
+                    value: 200,
+                    itemStyle: {
+                        color: 'transparent'
+                    }
+                }
+
+            ]
+        }]
+    };
+
+    // 3. 将配置项指定给容器对象
+    myCharts.setOption(option);
+})();
+
+//热门排行的js代码
+
+// 热门排行的js代码
+(function () {
+    // 1. 准备假数据
+    let hotData = [
+        {
+            city: '北京',  // 城市
+            sales: '25, 179',  // 销售额
+            flag: true, //  上升还是下降
+            // 以上三个数据,是外层数据
+            brands: [   //  品牌种类数据
+                {name: '可爱多', num: '9,086', flag: true},
+                {name: '娃哈哈', num: '8,341', flag: true},
+                {name: '喜之郎', num: '7,407', flag: false},
+                {name: '八喜', num: '6,080', flag: false},
+                {name: '小洋人', num: '6,724', flag: false},
+                {name: '好多鱼', num: '2,170', flag: true},
+            ]
+        },
+        {
+            city: '河北',
+            sales: '23,252',
+            flag: false,
+            brands: [
+                {name: '可爱多', num: '3,457', flag: false},
+                {name: '娃哈哈', num: '2,124', flag: true},
+                {name: '喜之郎', num: '8,907', flag: false},
+                {name: '八喜', num: '6,080', flag: true},
+                {name: '小洋人', num: '1,724', flag: false},
+                {name: '好多鱼', num: '1,170', flag: false},
+            ]
+        },
+        {
+            city: '上海',
+            sales: '20,760',
+            flag: true,
+            brands: [
+                {name: '可爱多', num: '2,345', flag: true},
+                {name: '娃哈哈', num: '7,109', flag: true},
+                {name: '喜之郎', num: '3,701', flag: false},
+                {name: '八喜', num: '6,080', flag: false},
+                {name: '小洋人', num: '2,724', flag: false},
+                {name: '好多鱼', num: '2,998', flag: true},
+            ]
+        },
+        {
+            city: '江苏',
+            sales: '23,252',
+            flag: false,
+            brands: [
+                {name: '可爱多', num: '2,156', flag: false},
+                {name: '娃哈哈', num: '2,456', flag: true},
+                {name: '喜之郎', num: '9,737', flag: true},
+                {name: '八喜', num: '2,080', flag: true},
+                {name: '小洋人', num: '8,724', flag: true},
+                {name: '好多鱼', num: '1,770', flag: false},
+            ]
+        },
+        {
+            city: '山东',
+            sales: '20,760',
+            flag: true,
+            brands: [
+                {name: '可爱多', num: '9,567', flag: true},
+                {name: '娃哈哈', num: '2,345', flag: false},
+                {name: '喜之郎', num: '9,037', flag: false},
+                {name: '八喜', num: '1,080', flag: true},
+                {name: '小洋人', num: '4,724', flag: false},
+                {name: '好多鱼', num: '9,999', flag: true},
+            ]
+        }
+    ]
+
+    // 2. 根据数据,生成各省热销li标签结构
+    let supStr = '';
+    $.each(hotData, function (index, value) {
+        supStr += `
+        <li>
+            <span>${value.city}</span>
+            <span>${value.sales} <s class=${value.flag ? "icon-up" : "icon-down"}></s></span>
+        </li>
+    `
+    })
+    // console.log(supStr);
+    // 3. 将生成的结构渲染到指定容器
+    $('.sup').html(supStr);
+
+    // 4. 给各省排行的li标签设置点击事件
+    $('.sup li').on('click', function () {
+        // 5. 修改当前标签类名
+        $(this).addClass('active').siblings().removeClass('active');
+
+        // 6. 获得当前城市对应的品牌数据
+        let brands = hotData[$(this).index()].brands;
+        // console.log(brands);
+
+        // 7. 根据获得数据,生成sub中的li标签
+        let subStr = '';
+        $.each(brands, function (index, value) {
+            subStr += `
+           <li>
+                <span>${value.name}</span>
+                <span>${value.num} <s class=${value.flag ? "icon-up" : "icon-down"}></s></span>
+           </li>
+           `
+        })
+        // console.log(subStr);
+        // 8. 将生成的结构渲染到指定容器
+        $('.sub').html(subStr);
+
+        // 注意,将当前按钮的下标与index同步
+        index = $(this).index();
+    })
+
+    // 需要注意index的声明位置
+    // 不要出现还没有声明就提前使用的错误
+    let index = 0;
+
+    // 加载的时候,默认点击第0个li标签
+    $('.sup li').eq(0).click();
+
+    // 9. 设置定时器
+
+    let timeID = setInterval(function () {
+        index++;
+        if (index > 4) index = 0;
+        $('.sup li').eq(index).click();
+    }, 1000)
+
+    // 10. 设置盒子的hover事件
+    $('.top').hover(
+        function () {
+            clearInterval(timeID);
+        },
+        function () {
+            timeID = setInterval(function () {
+                index++;
+                if (index > 4) index = 0;
+                $('.sup li').eq(index).click();
+            }, 1000)
+        }
+    )
+})();
